@@ -19,7 +19,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the view's delegate
         sceneView.delegate = self
         
-        //MARK: - Create a box
+        /*
+        //MARK: - Create a custom box
         let myBox = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.001)
         let boxMaterials = SCNMaterial()
         boxMaterials.diffuse.contents = UIImage(named: "art.scnassets/wall.jpg")
@@ -31,8 +32,26 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let moveShip = SCNAction.moveBy(x: 1, y: 0.3, z: -1, duration: 2)
         node.runAction(moveShip)
+         */
         
-        sceneView.scene.rootNode.addChildNode(node)
+        let earth = createSphere(radius: 0.1, content: "earth.jpeg", vector: SCNVector3(0, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(earth)
+        let mars = createSphere(radius: 0.09, content: "mars.jpeg", vector: SCNVector3(0.25, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(mars)
+        let sun = createSphere(radius: 0.4, content: "sun.jpeg", vector: SCNVector3(-0.25, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(sun)
+        let saturn = createSphere(radius: 0.15, content: "saturn.jpeg", vector: SCNVector3(0.5, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(saturn)
+        let uranus = createSphere(radius: 0.2, content: "uranus.jpeg", vector: SCNVector3(0.75, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(uranus)
+        let venus = createSphere(radius: 0.22, content: "venus.jpeg", vector: SCNVector3(1, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(venus)
+        let neptune = createSphere(radius: 0.13, content: "neptune.jpeg", vector: SCNVector3(1.25, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(neptune)
+        let mercury = createSphere(radius: 0.09, content: "mercury.jpeg", vector: SCNVector3(1.5, 0.2, -0.1))
+        sceneView.scene.rootNode.addChildNode(mercury)
+        
+        sceneView.automaticallyUpdatesLighting = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,5 +95,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
+    }
+    
+    //MARK: - Special Functions
+    func createSphere(radius: CGFloat, content: String, vector: SCNVector3) ->SCNNode {
+        let mySphere = SCNSphere(radius: radius)
+        let sphereMaterials = SCNMaterial()
+        sphereMaterials.diffuse.contents = UIImage(named: "art.scnassets/\(content)")
+        mySphere.materials = [sphereMaterials]
+        
+        let node = SCNNode()
+        node.position = vector
+        node.geometry = mySphere
+        
+        return node
     }
 }
